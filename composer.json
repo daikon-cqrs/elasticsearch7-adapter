@@ -1,0 +1,50 @@
+{
+    "name": "daikon/elasticsearch7-adapter",
+    "type": "library",
+    "description": "Elasticsearch7 adapter for Daikon projects.",
+    "keywords": [ "elasticsearch", "adapter" ],
+    "homepage": "https://github.com/daikon-cqrs/elasticsearch7-adapter",
+    "license": "MPL-2.0",
+    "prefer-stable": true,
+    "minimum-stability": "dev",
+    "require": {
+        "php": "^7.2",
+        "daikon/dbal": "master@dev",
+        "daikon/read-model": "master@dev",
+        "elasticsearch/elasticsearch": "^7.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0",
+        "sebastian/phpcpd": "^4.1",
+        "squizlabs/php_codesniffer": "^3.3",
+        "vimeo/psalm": "^2.0"
+    },
+    "autoload": {
+        "psr-4": { "Daikon\\Elasticsearch7\\" : "src" }
+    },
+    "autoload-dev": {
+        "psr-4": { "Daikon\\Tests\\Elasticsearch7\\": "tests" }
+    },
+    "archive": {
+        "exclude": [
+            "/build",
+            "/vendor"
+        ]
+    },
+    "scripts": {
+        "build": [ "@sniff", "@tests" ],
+        "code-sniffer": "phpcs -p -s --extensions=php --standard='PSR1,PSR2' src/",
+        "code-sniffer-autofix": "phpcbf --standard=PSR2 -d tabWidth=4 src/",
+        "copy-paste-detector": "phpcpd src/ || true",
+        "sniff": [
+            "@code-sniffer",
+            "@copy-paste-detector",
+            "@validate-json",
+            "psalm"
+        ],
+        "test": "phpunit --no-coverage",
+        "tests": "phpunit",
+        "validate-json": "composer validate --no-check-all --no-check-lock",
+        "validate-deps": "composer validate --with-dependencies --strict"
+    }
+}
