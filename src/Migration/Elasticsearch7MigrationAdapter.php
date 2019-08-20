@@ -38,7 +38,6 @@ final class Elasticsearch7MigrationAdapter implements MigrationAdapterInterface
         try {
             $result = $client->get([
                 'index' => $this->getIndex(),
-                'type' => $this->settings['type'],
                 'id' => $identifier
             ]);
         } catch (Missing404Exception $error) {
@@ -55,7 +54,6 @@ final class Elasticsearch7MigrationAdapter implements MigrationAdapterInterface
         $client = $this->connector->getConnection();
         $client->index([
             'index' => $this->getIndex(),
-            'type' => $this->settings['type'],
             'id' => $identifier,
             'body' => [
                 'target' => $identifier,

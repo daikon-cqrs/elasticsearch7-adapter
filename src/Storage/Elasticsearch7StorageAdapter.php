@@ -39,7 +39,6 @@ final class Elasticsearch7StorageAdapter implements StorageAdapterInterface, Sea
             $document = $this->connector->getConnection()->get(
                 array_merge($this->settings['read'] ?? [], [
                     'index' => $this->getIndex(),
-                    'type' => $this->settings['type'],
                     'id' => $identifier
                 ])
             );
@@ -55,7 +54,6 @@ final class Elasticsearch7StorageAdapter implements StorageAdapterInterface, Sea
     {
         $document = array_merge($this->settings['write'] ?? [], [
             'index' => $this->getIndex(),
-            'type' => $this->settings['type'],
             'id' => $identifier,
             'body' => $data
         ]);
@@ -74,7 +72,6 @@ final class Elasticsearch7StorageAdapter implements StorageAdapterInterface, Sea
     {
         $query = array_merge($this->settings['search'] ?? [], [
             'index' => $this->getIndex(),
-            'type' => $this->settings['type'],
             'from' => $from,
             'size' => $size,
             'body' => $query->toNative()

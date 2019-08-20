@@ -12,7 +12,6 @@ namespace Daikon\Elasticsearch7\Migration;
 
 use Daikon\Dbal\Exception\MigrationException;
 use Daikon\Dbal\Migration\MigrationTrait;
-use Elasticsearch\Common\Exceptions\BadRequest400Exception;
 use Elasticsearch\Common\Exceptions\Missing404Exception;
 
 trait Elasticsearch7MigrationTrait
@@ -71,32 +70,17 @@ trait Elasticsearch7MigrationTrait
         $indices->delete(['index' => $index]);
     }
 
-    private function putMappings(string $index, array $mappings): void
+    private function putMapping(string $index, array $mapping): void
     {
         $indices = $this->connector->getConnection()->indices();
-
-        foreach ($mappings as $type => $mapping) {
-            $indices->putMapping(['index' => $index, 'type' => $type, 'body' => $mapping]);
-        }
+        $indices->putMapping(['index' => $index, 'body' => $mapping]);
     }
 
-    private function reindexWithMappings(string $source, string $dest, array $mappings): void
+    private function reindexWithMapping(string $source, string $dest, array $mapping): void
     {
-        $currentSettings = $this->getIndexSettings($source);
-        $currentMappings = $this->getIndexMappings($source);
-
-        // merge provided mappings with existing settings & mappings
-        foreach ($currentMappings['mappings'] as $type => &$currentMapping) {
-            if (array_key_exists($type, $mappings)) {
-                if (empty($mappings[$type])) {
-                    unset($currentMappings['mappings'][$type]);
-                } else {
-                    $currentMapping = $mappings[$type];
-                }
-            }
-        }
-
-        $this->createIndex($dest, array_merge($currentSettings, $currentMappings));
+        $settings = $this->getIndexSettings($source);
+        $mappings['mappings'] = $mapping;
+        $this->createIndex($dest, array_merge($settings, $mappings));
         $this->reindex($source, $dest);
     }
 
@@ -121,12 +105,6 @@ trait Elasticsearch7MigrationTrait
         unset($settings['settings']['index']['creation_date']);
         unset($settings['settings']['index']['provided_name']);
         return $settings;
-    }
-
-    private function getIndexMappings(string $index): array
-    {
-        $indices = $this->connector->getConnection()->indices();
-        return current($indices->getMapping(['index' => $index]));
     }
 
     private function getIndicesWithAlias(string $alias): array
