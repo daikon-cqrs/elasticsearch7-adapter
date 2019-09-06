@@ -12,11 +12,12 @@ namespace Daikon\Elasticsearch7\Storage;
 
 use Daikon\Dbal\Exception\DbalException;
 use Daikon\Elasticsearch7\Connector\Elasticsearch7Connector;
-use Daikon\ReadModel\Projection\ProjectionInterface;
+use Daikon\Metadata\Metadata;
 use Daikon\ReadModel\Projection\ProjectionMap;
 use Daikon\ReadModel\Query\QueryInterface;
 use Daikon\ReadModel\Storage\SearchAdapterInterface;
 use Daikon\ReadModel\Storage\StorageAdapterInterface;
+use Daikon\ReadModel\Storage\StorageResultInterface;
 use Elasticsearch\Common\Exceptions\Missing404Exception;
 
 final class Elasticsearch7StorageAdapter implements StorageAdapterInterface, SearchAdapterInterface
@@ -33,7 +34,7 @@ final class Elasticsearch7StorageAdapter implements StorageAdapterInterface, Sea
         $this->settings = $settings;
     }
 
-    public function read(string $identifier): ?ProjectionInterface
+    public function read(string $identifier): StorageResultInterface
     {
         try {
             $document = $this->connector->getConnection()->get(
@@ -42,12 +43,15 @@ final class Elasticsearch7StorageAdapter implements StorageAdapterInterface, Sea
                     'id' => $identifier
                 ])
             );
+            $projectionClass = $document['_source']['@type'];
+            $projection = [$document['_id'] => $projectionClass::fromNative($document['_source'])];
         } catch (Missing404Exception $error) {
-            return null;
+            // just return an empty result
         }
 
-        $projectionClass = $document['_source']['@type'];
-        return $projectionClass::fromNative($document['_source']);
+        return new Elasticsearch7StorageResult(
+            new ProjectionMap($projection ?? [])
+        );
     }
 
     public function write(string $identifier, array $data): bool
@@ -68,7 +72,7 @@ final class Elasticsearch7StorageAdapter implements StorageAdapterInterface, Sea
         throw new DbalException('Not implemented');
     }
 
-    public function search(QueryInterface $query, int $from = null, int $size = null): ProjectionMap
+    public function search(QueryInterface $query, int $from = null, int $size = null): StorageResultInterface
     {
         $query = array_merge($this->settings['search'] ?? [], [
             'index' => $this->getIndex(),
@@ -85,7 +89,10 @@ final class Elasticsearch7StorageAdapter implements StorageAdapterInterface, Sea
             $projections[$document['_id']] = $projectionClass::fromNative($document['_source']);
         }
 
-        return new ProjectionMap($projections);
+        return new Elasticsearch7StorageResult(
+            new ProjectionMap($projections),
+            Metadata::fromNative(['total' => $results['hits']['total']['value']])
+        );
     }
 
     private function getIndex(): string
