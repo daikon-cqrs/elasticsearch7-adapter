@@ -9,9 +9,9 @@
     "minimum-stability": "dev",
     "require": {
         "php": "^7.2",
-        "daikon/dbal": "dev-feature/storage-result",
+        "daikon/dbal": "master@dev",
         "daikon/metadata": "master@dev",
-        "daikon/read-model": "dev-feature/storage-result",
+        "daikon/read-model": "master@dev",
         "elasticsearch/elasticsearch": "^7.0"
     },
     "require-dev": {
