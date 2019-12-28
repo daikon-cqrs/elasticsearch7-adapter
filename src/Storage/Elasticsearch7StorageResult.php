@@ -1,12 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the daikon-cqrs/elasticsearch7-adapter project.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
 
 namespace Daikon\Elasticsearch7\Storage;
 
@@ -15,6 +13,8 @@ use Daikon\Metadata\MetadataInterface;
 use Daikon\ReadModel\Projection\ProjectionInterface;
 use Daikon\ReadModel\Projection\ProjectionMapInterface;
 use Daikon\ReadModel\Storage\StorageResultInterface;
+use Iterator;
+use Traversable;
 
 final class Elasticsearch7StorageResult implements StorageResultInterface
 {
@@ -42,6 +42,7 @@ final class Elasticsearch7StorageResult implements StorageResultInterface
 
     public function getFirst(): ?ProjectionInterface
     {
+        /** @var Iterator $iterator */
         $iterator = $this->getIterator();
         $iterator->rewind();
         return $iterator->current();
@@ -52,8 +53,7 @@ final class Elasticsearch7StorageResult implements StorageResultInterface
         return $this->count() === 0;
     }
 
-    /** @psalm-suppress LessSpecificReturnStatement */
-    public function getIterator(): \Iterator
+    public function getIterator(): Traversable
     {
         return $this->projectionMap->getIterator();
     }
