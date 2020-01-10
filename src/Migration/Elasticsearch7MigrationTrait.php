@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the daikon-cqrs/elasticsearch7-adapter project.
  *
@@ -6,13 +6,11 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 namespace Daikon\Elasticsearch7\Migration;
 
-use Daikon\Dbal\Exception\MigrationException;
 use Daikon\Dbal\Migration\MigrationTrait;
 use Elasticsearch\Common\Exceptions\Missing404Exception;
+use RuntimeException;
 
 trait Elasticsearch7MigrationTrait
 {
@@ -23,7 +21,7 @@ trait Elasticsearch7MigrationTrait
         $indices = $this->connector->getConnection()->indices();
 
         if ($this->indexExists($index)) {
-            throw new MigrationException("Cannot create already existing index $index.");
+            throw new RuntimeException("Cannot create already existing index $index");
         }
 
         $indices->create(['index' => $index, 'body' => $settings]);
@@ -43,8 +41,8 @@ trait Elasticsearch7MigrationTrait
     {
         $currentIndices = $this->getIndicesWithAlias($alias);
         if (count($currentIndices) !== 1) {
-            throw new MigrationException(
-                "Cannot reassign alias $alias since it is not assigned to exactly one index."
+            throw new RuntimeException(
+                "Cannot reassign alias $alias since it is not assigned to exactly one index"
             );
         }
 
@@ -64,7 +62,7 @@ trait Elasticsearch7MigrationTrait
         $indices = $this->connector->getConnection()->indices();
 
         if (!$this->indexExists($index)) {
-            throw new MigrationException("Cannot delete non-existing index $index.");
+            throw new RuntimeException("Cannot delete non-existing index $index");
         }
 
         $indices->delete(['index' => $index]);

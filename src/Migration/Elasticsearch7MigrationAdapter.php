@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the daikon-cqrs/elasticsearch7-adapter project.
  *
@@ -6,24 +6,20 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 namespace Daikon\Elasticsearch7\Migration;
 
 use Daikon\Dbal\Connector\ConnectorInterface;
-use Daikon\Dbal\Exception\MigrationException;
 use Daikon\Dbal\Migration\MigrationAdapterInterface;
 use Daikon\Dbal\Migration\MigrationList;
 use Daikon\Elasticsearch7\Connector\Elasticsearch7Connector;
+use DateTimeImmutable;
 use Elasticsearch\Common\Exceptions\Missing404Exception;
 
 final class Elasticsearch7MigrationAdapter implements MigrationAdapterInterface
 {
-    /** @var Elasticsearch7Connector */
-    private $connector;
+    private Elasticsearch7Connector $connector;
 
-    /** @var array */
-    private $settings;
+    private array $settings;
 
     public function __construct(Elasticsearch7Connector $connector, array $settings = [])
     {
@@ -42,8 +38,6 @@ final class Elasticsearch7MigrationAdapter implements MigrationAdapterInterface
             ]);
         } catch (Missing404Exception $error) {
             return new MigrationList;
-        } catch (\Exception $error) {
-            throw new MigrationException($error->getMessage(), $error->getCode(), $error);
         }
 
         return $this->createMigrationList($result['_source']['migrations']);
@@ -51,6 +45,10 @@ final class Elasticsearch7MigrationAdapter implements MigrationAdapterInterface
 
     public function write(string $identifier, MigrationList $executedMigrations): void
     {
+        if ($executedMigrations->isEmpty()) {
+            return;
+        }
+
         $client = $this->connector->getConnection();
         $client->index([
             'index' => $this->getIndex(),
@@ -72,7 +70,7 @@ final class Elasticsearch7MigrationAdapter implements MigrationAdapterInterface
         $migrations = [];
         foreach ($migrationData as $migration) {
             $migrationClass = $migration['@type'];
-            $migrations[] = new $migrationClass(new \DateTimeImmutable($migration['executedAt']));
+            $migrations[] = new $migrationClass(new DateTimeImmutable($migration['executedAt']));
         }
         return (new MigrationList($migrations))->sortByVersion();
     }

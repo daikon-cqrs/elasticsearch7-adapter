@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the daikon-cqrs/elasticsearch7-adapter project.
  *
@@ -6,19 +6,16 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types=1);
-
 namespace Daikon\Elasticsearch7\Query;
 
 use Daikon\ReadModel\Query\QueryInterface;
 
 final class Elasticsearch7Query implements QueryInterface
 {
-    /** @var array */
-    private $query;
+    private array $query;
 
     /** @param array $query */
-    public static function fromNative($query): QueryInterface
+    public static function fromNative($query): self
     {
         return new self($query);
     }

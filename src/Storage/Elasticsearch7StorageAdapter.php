@@ -1,12 +1,10 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * This file is part of the daikon-cqrs/elasticsearch7-adapter project.
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
-declare(strict_types=1);
 
 namespace Daikon\Elasticsearch7\Storage;
 
@@ -27,11 +25,9 @@ final class Elasticsearch7StorageAdapter implements
     SearchAdapterInterface,
     ScrollAdapterInterface
 {
-    /** @var Elasticsearch7Connector */
-    private $connector;
+    private Elasticsearch7Connector $connector;
 
-    /** @var array */
-    private $settings;
+    private array $settings;
 
     public function __construct(Elasticsearch7Connector $connector, array $settings = [])
     {
