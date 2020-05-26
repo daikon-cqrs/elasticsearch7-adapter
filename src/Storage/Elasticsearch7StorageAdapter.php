@@ -37,6 +37,8 @@ final class Elasticsearch7StorageAdapter implements
 
     public function read(string $identifier): StorageResultInterface
     {
+        $projection = [];
+
         try {
             $document = $this->connector->getConnection()->get(
                 array_merge($this->settings['read'] ?? [], [
@@ -51,7 +53,7 @@ final class Elasticsearch7StorageAdapter implements
         }
 
         return new Elasticsearch7StorageResult(
-            new ProjectionMap($projection ?? [])
+            new ProjectionMap($projection)
         );
     }
 
