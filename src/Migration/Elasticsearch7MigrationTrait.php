@@ -8,9 +8,9 @@
 
 namespace Daikon\Elasticsearch7\Migration;
 
+use Daikon\Dbal\Exception\DbalException;
 use Daikon\Dbal\Migration\MigrationTrait;
 use Elasticsearch\Common\Exceptions\Missing404Exception;
-use RuntimeException;
 
 trait Elasticsearch7MigrationTrait
 {
@@ -21,7 +21,7 @@ trait Elasticsearch7MigrationTrait
         $indices = $this->connector->getConnection()->indices();
 
         if ($this->indexExists($index)) {
-            throw new RuntimeException("Cannot create already existing index $index");
+            throw new DbalException("Cannot create already existing index $index");
         }
 
         $indices->create(['index' => $index, 'body' => $settings]);
@@ -41,7 +41,7 @@ trait Elasticsearch7MigrationTrait
     {
         $currentIndices = $this->getIndicesWithAlias($alias);
         if (count($currentIndices) !== 1) {
-            throw new RuntimeException(
+            throw new DbalException(
                 "Cannot reassign alias $alias since it is not assigned to exactly one index"
             );
         }
@@ -62,7 +62,7 @@ trait Elasticsearch7MigrationTrait
         $indices = $this->connector->getConnection()->indices();
 
         if (!$this->indexExists($index)) {
-            throw new RuntimeException("Cannot delete non-existing index $index");
+            throw new DbalException("Cannot delete non-existing index $index");
         }
 
         $indices->delete(['index' => $index]);
