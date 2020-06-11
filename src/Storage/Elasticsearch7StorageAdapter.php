@@ -72,7 +72,7 @@ final class Elasticsearch7StorageAdapter implements
 
     public function delete(string $identifier): bool
     {
-        throw new DbalException('Not implemented');
+        throw new DbalException('Not implemented.');
     }
 
     public function search(QueryInterface $query, int $from = null, int $size = null): StorageResultInterface
