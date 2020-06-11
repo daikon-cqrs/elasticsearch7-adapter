@@ -8,9 +8,9 @@
 
 namespace Daikon\Elasticsearch7\Storage;
 
-use Assert\Assertion;
 use Daikon\Dbal\Exception\DbalException;
 use Daikon\Elasticsearch7\Connector\Elasticsearch7Connector;
+use Daikon\Interop\Assert;
 use Daikon\Metadata\Metadata;
 use Daikon\ReadModel\Projection\ProjectionMap;
 use Daikon\ReadModel\Query\QueryInterface;
@@ -117,8 +117,7 @@ final class Elasticsearch7StorageAdapter implements
 
     public function scrollNext($cursor, int $size = null): StorageResultInterface
     {
-        Assertion::string($cursor);
-        Assertion::notEmpty($cursor);
+        Assert::that($cursor, 'Invalid cursor.')->string()->notEmpty();
 
         $results = $this->connector->getConnection()->scroll([
             'scroll_id' => $cursor,
@@ -137,8 +136,7 @@ final class Elasticsearch7StorageAdapter implements
 
     public function scrollEnd($cursor): void
     {
-        Assertion::string($cursor);
-        Assertion::notEmpty($cursor);
+        Assert::that($cursor, 'Invalid cursor.')->string()->notEmpty();
 
         $this->connector->getConnection()->clearScroll(['scroll_id' => $cursor]);
     }

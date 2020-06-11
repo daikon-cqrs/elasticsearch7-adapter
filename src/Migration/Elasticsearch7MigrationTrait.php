@@ -42,7 +42,7 @@ trait Elasticsearch7MigrationTrait
         $currentIndices = $this->getIndicesWithAlias($alias);
         if (count($currentIndices) !== 1) {
             throw new DbalException(
-                "Cannot reassign alias $alias since it is not assigned to exactly one index"
+                "Cannot reassign alias $alias since it is not assigned to exactly one index."
             );
         }
 
@@ -62,7 +62,7 @@ trait Elasticsearch7MigrationTrait
         $indices = $this->connector->getConnection()->indices();
 
         if (!$this->indexExists($index)) {
-            throw new DbalException("Cannot delete non-existing index $index");
+            throw new DbalException("Cannot delete non-existing index $index.");
         }
 
         $indices->delete(['index' => $index]);

@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.4",
         "daikon/dbal": "master@dev",
+        "daikon/interop": "master@dev",
         "daikon/metadata": "master@dev",
         "daikon/read-model": "master@dev",
         "elasticsearch/elasticsearch": "^7.0"

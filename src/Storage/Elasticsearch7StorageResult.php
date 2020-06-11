@@ -11,22 +11,22 @@ namespace Daikon\Elasticsearch7\Storage;
 use Daikon\Metadata\Metadata;
 use Daikon\Metadata\MetadataInterface;
 use Daikon\ReadModel\Projection\ProjectionInterface;
-use Daikon\ReadModel\Projection\ProjectionMapInterface;
+use Daikon\ReadModel\Projection\ProjectionMap;
 use Daikon\ReadModel\Storage\StorageResultInterface;
 
 final class Elasticsearch7StorageResult implements StorageResultInterface
 {
-    private ProjectionMapInterface $projectionMap;
+    private ProjectionMap $projectionMap;
 
     private MetadataInterface $metadata;
 
-    public function __construct(ProjectionMapInterface $projectionMap, MetadataInterface $metadata = null)
+    public function __construct(ProjectionMap $projectionMap, MetadataInterface $metadata = null)
     {
         $this->projectionMap = $projectionMap;
         $this->metadata = $metadata ?? Metadata::makeEmpty();
     }
 
-    public function getProjectionMap(): ProjectionMapInterface
+    public function getProjectionMap(): ProjectionMap
     {
         return $this->projectionMap;
     }
@@ -57,7 +57,7 @@ final class Elasticsearch7StorageResult implements StorageResultInterface
         return $this->projectionMap->isEmpty();
     }
 
-    public function getIterator(): ProjectionMapInterface
+    public function getIterator(): ProjectionMap
     {
         return $this->projectionMap;
     }
