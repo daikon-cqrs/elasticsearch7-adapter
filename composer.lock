@@ -267,12 +267,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/daikon-cqrs/interop.git",
-                "reference": "3421260ff6f0bb08932eced207fd346bcdb5d980"
+                "reference": "12496dfaccf079ce09c1484149c3cb7a3ed0df83"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/daikon-cqrs/interop/zipball/3421260ff6f0bb08932eced207fd346bcdb5d980",
-                "reference": "3421260ff6f0bb08932eced207fd346bcdb5d980",
+                "url": "https://api.github.com/repos/daikon-cqrs/interop/zipball/12496dfaccf079ce09c1484149c3cb7a3ed0df83",
+                "reference": "12496dfaccf079ce09c1484149c3cb7a3ed0df83",
                 "shasum": ""
             },
             "require": {
@@ -297,7 +297,7 @@
             ],
             "description": "Interoperability code used across Daikon-CQRS components.",
             "homepage": "https://github.com/daikon-cqrs/interop",
-            "time": "2020-06-10T23:51:53+00:00"
+            "time": "2020-06-13T18:56:24+00:00"
         },
         {
             "name": "daikon/message-bus",
@@ -480,16 +480,16 @@
         },
         {
             "name": "elasticsearch/elasticsearch",
-            "version": "v7.7.0",
+            "version": "v7.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elastic/elasticsearch-php.git",
-                "reference": "1d90a7ff4fb1936dc4376f09d723af75714f6f05"
+                "reference": "5c2d039ae7bdaa1e28f1e66971c5b3314fc36383"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elastic/elasticsearch-php/zipball/1d90a7ff4fb1936dc4376f09d723af75714f6f05",
-                "reference": "1d90a7ff4fb1936dc4376f09d723af75714f6f05",
+                "url": "https://api.github.com/repos/elastic/elasticsearch-php/zipball/5c2d039ae7bdaa1e28f1e66971c5b3314fc36383",
+                "reference": "5c2d039ae7bdaa1e28f1e66971c5b3314fc36383",
                 "shasum": ""
             },
             "require": {
@@ -539,7 +539,7 @@
                 "elasticsearch",
                 "search"
             ],
-            "time": "2020-05-13T15:19:26+00:00"
+            "time": "2020-06-18T19:23:29+00:00"
         },
         {
             "name": "ezimuel/guzzlestreams",
