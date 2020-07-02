@@ -82,7 +82,7 @@ trait Elasticsearch7MigrationTrait
         $this->reindex($source, $dest);
     }
 
-    private function reindex(string $source, string $dest)
+    private function reindex(string $source, string $dest): void
     {
         $client = $this->connector->getConnection();
         $client->reindex([
@@ -123,7 +123,7 @@ trait Elasticsearch7MigrationTrait
         return $indices->exists(['index' => $index]);
     }
 
-    private function getIndexPrefix()
+    private function getIndexPrefix(): string
     {
         return $this->connector->getSettings()['index_prefix'];
     }

@@ -8,6 +8,7 @@
 
 namespace Daikon\Elasticsearch7\Query;
 
+use Daikon\Interop\Assertion;
 use Daikon\ReadModel\Query\QueryInterface;
 
 final class Elasticsearch7Query implements QueryInterface
@@ -17,6 +18,7 @@ final class Elasticsearch7Query implements QueryInterface
     /** @param array $query */
     public static function fromNative($query): self
     {
+        Assertion::isArray($query, 'Must be an array.');
         return new self($query);
     }
 
