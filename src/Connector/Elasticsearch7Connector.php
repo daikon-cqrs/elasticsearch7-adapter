@@ -9,13 +9,13 @@
 namespace Daikon\Elasticsearch7\Connector;
 
 use Daikon\Dbal\Connector\ConnectorInterface;
-use Daikon\Dbal\Connector\ConnectorTrait;
+use Daikon\Dbal\Connector\ProvidesConnector;
 use Elasticsearch\Client;
 use Elasticsearch\ClientBuilder;
 
 final class Elasticsearch7Connector implements ConnectorInterface
 {
-    use ConnectorTrait;
+    use ProvidesConnector;
 
     protected function connect(): Client
     {
