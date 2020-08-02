@@ -9,14 +9,12 @@
 namespace Daikon\Elasticsearch7\Migration;
 
 use Daikon\Dbal\Exception\DbalException;
-use Daikon\Dbal\Migration\MigrationTrait;
+use Daikon\Dbal\Migration\Migration;
 use Elasticsearch\Common\Exceptions\Missing404Exception;
 
-trait Elasticsearch7MigrationTrait
+abstract class Elasticsearch7Migration extends Migration
 {
-    use MigrationTrait;
-
-    private function createIndex(string $index, array $settings = []): void
+    protected function createIndex(string $index, array $settings = []): void
     {
         $indices = $this->connector->getConnection()->indices();
 
@@ -27,7 +25,7 @@ trait Elasticsearch7MigrationTrait
         $indices->create(['index' => $index, 'body' => $settings]);
     }
 
-    private function createAlias(string $index, string $alias): void
+    protected function createAlias(string $index, string $alias): void
     {
         $indices = $this->connector->getConnection()->indices();
         $indices->updateAliases([
@@ -37,7 +35,7 @@ trait Elasticsearch7MigrationTrait
         ]);
     }
 
-    private function reassignAlias(string $index, string $alias): void
+    protected function reassignAlias(string $index, string $alias): void
     {
         $currentIndices = $this->getIndicesWithAlias($alias);
         if (count($currentIndices) !== 1) {
@@ -57,7 +55,7 @@ trait Elasticsearch7MigrationTrait
         ]);
     }
 
-    private function deleteIndex(string $index): void
+    protected function deleteIndex(string $index): void
     {
         $indices = $this->connector->getConnection()->indices();
 
@@ -68,13 +66,13 @@ trait Elasticsearch7MigrationTrait
         $indices->delete(['index' => $index]);
     }
 
-    private function putMapping(string $index, array $mapping): void
+    protected function putMapping(string $index, array $mapping): void
     {
         $indices = $this->connector->getConnection()->indices();
         $indices->putMapping(['index' => $index, 'body' => $mapping]);
     }
 
-    private function reindexWithMapping(string $source, string $dest, array $mapping): void
+    protected function reindexWithMapping(string $source, string $dest, array $mapping): void
     {
         $settings = $this->getIndexSettings($source);
         $mappings['mappings'] = $mapping;
@@ -82,7 +80,7 @@ trait Elasticsearch7MigrationTrait
         $this->reindex($source, $dest);
     }
 
-    private function reindex(string $source, string $dest): void
+    protected function reindex(string $source, string $dest): void
     {
         $client = $this->connector->getConnection();
         $client->reindex([
@@ -93,7 +91,7 @@ trait Elasticsearch7MigrationTrait
         ]);
     }
 
-    private function getIndexSettings(string $index): array
+    protected function getIndexSettings(string $index): array
     {
         $indices = $this->connector->getConnection()->indices();
         $settings = current($indices->getSettings(['index' => $index]));
@@ -105,7 +103,7 @@ trait Elasticsearch7MigrationTrait
         return $settings;
     }
 
-    private function getIndicesWithAlias(string $alias): array
+    protected function getIndicesWithAlias(string $alias): array
     {
         $indices = $this->connector->getConnection()->indices();
 
@@ -117,13 +115,13 @@ trait Elasticsearch7MigrationTrait
         return $indexNames ?? [];
     }
 
-    private function indexExists(string $index): bool
+    protected function indexExists(string $index): bool
     {
         $indices = $this->connector->getConnection()->indices();
         return $indices->exists(['index' => $index]);
     }
 
-    private function getIndexPrefix(): string
+    protected function getIndexPrefix(): string
     {
         return $this->connector->getSettings()['index_prefix'];
     }
