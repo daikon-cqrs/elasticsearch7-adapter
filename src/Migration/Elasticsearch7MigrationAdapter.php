@@ -43,9 +43,9 @@ final class Elasticsearch7MigrationAdapter implements MigrationAdapterInterface
         return $this->createMigrationList($result['_source']['migrations']);
     }
 
-    public function write(string $identifier, MigrationList $executedMigrations): void
+    public function write(string $identifier, MigrationList $migrationList): void
     {
-        if ($executedMigrations->isEmpty()) {
+        if ($migrationList->isEmpty()) {
             return;
         }
 
@@ -55,7 +55,7 @@ final class Elasticsearch7MigrationAdapter implements MigrationAdapterInterface
             'id' => $identifier,
             'body' => [
                 'target' => $identifier,
-                'migrations' => $executedMigrations->toNative()
+                'migrations' => $migrationList->toNative()
             ]
         ]);
     }
