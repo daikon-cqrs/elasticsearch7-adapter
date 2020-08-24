@@ -175,12 +175,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/daikon-cqrs/dbal.git",
-                "reference": "f69d7008c0e2d0746838e8d42dda4c16001fe169"
+                "reference": "9ba8f9a6a3bb95c813c93abc7425e020ae0ca3a3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/daikon-cqrs/dbal/zipball/f69d7008c0e2d0746838e8d42dda4c16001fe169",
-                "reference": "f69d7008c0e2d0746838e8d42dda4c16001fe169",
+                "url": "https://api.github.com/repos/daikon-cqrs/dbal/zipball/9ba8f9a6a3bb95c813c93abc7425e020ae0ca3a3",
+                "reference": "9ba8f9a6a3bb95c813c93abc7425e020ae0ca3a3",
                 "shasum": ""
             },
             "require": {
@@ -213,7 +213,7 @@
                 "dbal",
                 "immutable"
             ],
-            "time": "2020-08-17T19:29:43+00:00"
+            "time": "2020-08-22T22:20:22+00:00"
         },
         {
             "name": "daikon/event-sourcing",
@@ -305,12 +305,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/daikon-cqrs/message-bus.git",
-                "reference": "338ae517e225d2e542613b3728aaa7f7934700d3"
+                "reference": "3da3730fe5f09ee5599e60807e86d92821769e6f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/daikon-cqrs/message-bus/zipball/338ae517e225d2e542613b3728aaa7f7934700d3",
-                "reference": "338ae517e225d2e542613b3728aaa7f7934700d3",
+                "url": "https://api.github.com/repos/daikon-cqrs/message-bus/zipball/3da3730fe5f09ee5599e60807e86d92821769e6f",
+                "reference": "3da3730fe5f09ee5599e60807e86d92821769e6f",
                 "shasum": ""
             },
             "require": {
@@ -342,7 +342,7 @@
                 "message-bus",
                 "messaging"
             ],
-            "time": "2020-08-17T18:16:53+00:00"
+            "time": "2020-08-22T21:51:47+00:00"
         },
         {
             "name": "daikon/metadata",
@@ -480,16 +480,16 @@
         },
         {
             "name": "elasticsearch/elasticsearch",
-            "version": "v7.8.0",
+            "version": "v7.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/elastic/elasticsearch-php.git",
-                "reference": "5c2d039ae7bdaa1e28f1e66971c5b3314fc36383"
+                "reference": "1380925ccd276ab897c76596cf3705cb9714a78c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elastic/elasticsearch-php/zipball/5c2d039ae7bdaa1e28f1e66971c5b3314fc36383",
-                "reference": "5c2d039ae7bdaa1e28f1e66971c5b3314fc36383",
+                "url": "https://api.github.com/repos/elastic/elasticsearch-php/zipball/1380925ccd276ab897c76596cf3705cb9714a78c",
+                "reference": "1380925ccd276ab897c76596cf3705cb9714a78c",
                 "shasum": ""
             },
             "require": {
@@ -539,7 +539,7 @@
                 "elasticsearch",
                 "search"
             ],
-            "time": "2020-06-18T19:23:29+00:00"
+            "time": "2020-08-18T13:44:18+00:00"
         },
         {
             "name": "ezimuel/guzzlestreams",
