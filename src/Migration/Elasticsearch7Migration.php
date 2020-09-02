@@ -75,7 +75,7 @@ abstract class Elasticsearch7Migration extends Migration
     protected function reindexWithMapping(string $source, string $dest, array $mapping): void
     {
         $settings = $this->getIndexSettings($source);
-        $mappings['mappings'] = $mapping;
+        $mappings = ['mappings' => $mapping];
         $this->createIndex($dest, array_merge($settings, $mappings));
         $this->reindex($source, $dest);
     }
@@ -110,9 +110,10 @@ abstract class Elasticsearch7Migration extends Migration
         try {
             $indexNames = array_keys($indices->getAlias(['name' => $alias]));
         } catch (Missing404Exception $error) {
+            $indexNames = [];
         }
 
-        return $indexNames ?? [];
+        return $indexNames;
     }
 
     protected function indexExists(string $index): bool

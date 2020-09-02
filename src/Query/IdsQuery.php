@@ -11,15 +11,15 @@ namespace Daikon\Elasticsearch7\Query;
 use Daikon\Interop\Assert;
 use Daikon\ReadModel\Query\QueryInterface;
 
-final class Elasticsearch7Query implements QueryInterface
+final class IdsQuery implements QueryInterface
 {
     private array $query;
 
-    /** @param array $query */
-    public static function fromNative($query): self
+    /** @param array $ids */
+    public static function fromNative($ids): QueryInterface
     {
-        Assert::that($query)->isArray('Must be an array.')->notEmpty('Must not be empty.');
-        return new self($query);
+        Assert::that($ids)->isArray('Must be an array.')->notEmpty('Must not be empty.');
+        return new self($ids);
     }
 
     public function toNative(): array
@@ -27,8 +27,14 @@ final class Elasticsearch7Query implements QueryInterface
         return $this->query;
     }
 
-    private function __construct(array $query = [])
+    private function __construct(array $ids)
     {
-        $this->query = $query;
+        $this->query = [
+            'query' => [
+                'ids' => [
+                    'values' => $ids
+                ]
+            ]
+        ];
     }
 }
