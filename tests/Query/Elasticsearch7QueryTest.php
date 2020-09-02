@@ -28,11 +28,14 @@ final class Elasticsearch7QueryTest extends TestCase
         Elasticsearch7Query::fromNative('query');
     }
 
+    public function testFromNativeWithEmpty(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        Elasticsearch7Query::fromNative([]);
+    }
+
     public function testToNative(): void
     {
-        $query = Elasticsearch7Query::fromNative([]);
-        $this->assertEquals([], $query->toNative());
-
         $payload = ['term' => 'value'];
         $query = Elasticsearch7Query::fromNative($payload);
         $this->assertEquals($payload, $query->toNative());
